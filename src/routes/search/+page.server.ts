@@ -1,0 +1,8 @@
+import { formatEnum } from '$lib/server/db/schema';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async () => {
+	return {
+		formats: formatEnum.enumValues
+	};
+};
