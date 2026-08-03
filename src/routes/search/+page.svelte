@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-    import logoDraconis from '$lib/assets/logoDraconis.svg'
+	import logoDraconis from '$lib/assets/logoDraconis.svg'
 	import type { Format } from '$lib/server/db/schema';
+	import type { GoogleBookResult } from '$lib/server/types';
+
 
 
 	let { data }: { data: PageData } = $props();
@@ -51,12 +53,23 @@
 				return;
 			}
 			searchError = '';
-			// (next: read + map the response body)
+			const result: GoogleBookResult = await response.json();
+
+			form = {
+				...form,
+				isbn: result.isbn ?? '',
+				title: result.title,
+				author: result.authors.join(', '),
+				series: result.series ?? '',
+				publisher: result.publisher ?? '',
+				publishYear: result.publishYear ?? 0,
+				pages: result.pageCount ?? 0
+			};
+
+
 		} catch {
 			searchError = 'Something went wrong while searching. Check your connection and try again.';
 		}
-
-
 	}
 
 
