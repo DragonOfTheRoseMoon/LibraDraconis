@@ -1,42 +1,19 @@
-# sv
+## LibraDraconis
+ 
+Libra Draconis is actively in development for creating a self-hosted database for physical books. The current primary goal is to utilize ISBN to search for book information in publicly available free APIs, populate the data, and allow for any edits before storing safely in the local Postgres database. This project was originally written in Python ([AutoHoard-ISBNLookup](https://github.com/DragonOfTheRoseMoon)) but is being expanded upon and rewritten to be a self-hosted, containerized web app.
+ 
+### Tech Stack
+- **Frontend:** SvelteKit
+- **Backend:** TypeScript
+- **Database:** PostgreSQL / Drizzle ORM
+- **Infra / Hosting:** Docker (End Goal)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.16.6 create --template minimal --types ts --add prettier tailwindcss="plugins:forms,typography" drizzle="database:postgresql+postgresql:postgres.js+docker:yes" --install npm ./
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+### Current Progress
+- In progress: Workflow for Google Books API ingestion
+- 
+### Future Steps
+- Add additional APIs' results to choose from
+- Present the Postgres database of books like a shelf
+- Implement a wish list feature that displays as an ordered list
+- Package into a Docker image
+ 
