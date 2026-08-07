@@ -1,27 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import logoDraconis from '$lib/assets/logoDraconis.svg'
-	import type { Format, Status } from '$lib/server/db/schema';
-	import type { GoogleBookResult } from '$lib/server/types';
-
-
+	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '$lib/server/types';
 
 	let { data }: { data: PageData } = $props();
 
-	type BookForm = {
-		isbn: string;
-		title: string;
-		author: string;
-		series: string;
-		order: number;
-		publisher: string;
-		publishYear: number;
-		format: Format;
-		pages: number;
-		status: Status;
-	};
-
-	const emptyForm: BookForm = ({
+	const emptyForm: BookEntryForm = ({
 			isbn: '',
 			title: '',
 			author: '',
@@ -39,6 +23,8 @@
 	let searchError = $state('');
 	let thumbnail = $state<string | null>(null);
 	let hasSearched = $state(false);
+	let submitError = $state('');
+	let submitting = $state(false);
 
 
 	function handleClear(){
@@ -75,7 +61,7 @@
 				...form,
 				isbn: result.isbn ?? '',
 				title: result.title,
-				author: result.authors.join(', '),
+				author: result.authors.join('; '),
 				series: result.series ?? '',
 				publisher: result.publisher ?? '',
 				publishYear: result.publishYear ?? 0,
@@ -89,9 +75,37 @@
 	}
 
 
+	async function handleSubmit() {
+		if (!form.title.trim()) {
+			submitError = 'Title is required.';
+			return;
+		}
 
+		submitting = true;
+		submitError = '';
 
-//	async function handleSubmit()  :Complete after database endpoints set up
+		try {
+			const payload: AddBookPayload = { ...form, thumbnail };
+
+			const response = await fetch('/api/library', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload)
+			});
+
+			if (!response.ok) {
+				const result = await response.json().catch(() => ({}));
+				submitError = result.error ?? 'Could not add book to library.';
+				return;
+			}
+
+			handleClear();
+		} catch {
+			submitError = 'Something went wrong while saving. Check your connection and try again.';
+		} finally {
+			submitting = false;
+		}
+	}
 </script>
 
 <div class="flex items-center justify-center m-9">
@@ -191,8 +205,13 @@
 		</div>
 	</fieldset>
 
-	<footer class="flex justify-end gap-x-2">
-		<button type="button" class="btn preset-filled min-w-24" onclick={handleClear}>Clear</button>
-		<button type="button" class="btn preset-filled" onclick={handleSubmit}>Add To Library</button>
+	<footer class="flex flex-col items-end gap-2">
+		{#if submitError}
+			<p class="text-error-500 text-sm">{submitError}</p>
+		{/if}
+		<div class="flex justify-end gap-x-2">
+			<button type="button" class="btn preset-filled min-w-24" onclick={handleClear} disabled={submitting}>Clear</button>
+			<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}>Add To Library</button>
+		</div>
 	</footer>
 </form>
