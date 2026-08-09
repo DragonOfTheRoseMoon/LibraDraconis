@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import logoDraconis from '$lib/assets/logoDraconis.svg'
 	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '$lib/server/types';
+	import { toaster } from '$lib/components/toaster';
 
 	let { data }: { data: PageData } = $props();
 
@@ -96,12 +97,27 @@
 			if (!response.ok) {
 				const result = await response.json().catch(() => ({}));
 				submitError = result.error ?? 'Could not add book to library.';
+				toaster.create({
+					title: 'Save Failed',
+					description: `Your book was not added to the database. ${submitError}`,
+					type: 'error'
+			});
 				return;
 			}
+
+			toaster.create({
+				title: 'Book Added',
+				description: 'Your book was added to the database.',
+				type: 'success'
+			});
 
 			handleClear();
 		} catch {
 			submitError = 'Something went wrong while saving. Check your connection and try again.';
+			toaster.create({
+				title: 'Save Failed',
+				description: `Your book was not added to the database. ${submitError}`,
+				type: 'error'});
 		} finally {
 			submitting = false;
 		}
