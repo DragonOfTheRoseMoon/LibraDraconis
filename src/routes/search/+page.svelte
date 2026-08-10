@@ -40,15 +40,13 @@
 
 
 	async function handleSearch(){
-
-		
-
+		const cleanedIsbn = searchisbn.replace(/[\s-]/g, '');
 
 		try {
-			const response = await fetch(`/api/search?isbn=${encodeURIComponent(searchisbn)}`);
+			const response = await fetch(`/api/search?isbn=${encodeURIComponent(cleanedIsbn)}`);
 
 			if (!response.ok) {
-				searchError = `Could not find a book for ISBN "${searchisbn}".`;
+				searchError = `Could not find a book for ISBN "${cleanedIsbn}".`;
 				return;
 			}
 			searchError = '';

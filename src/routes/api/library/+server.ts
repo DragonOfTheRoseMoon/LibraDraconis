@@ -4,6 +4,7 @@ import type { RequestHandler } from './$types';
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { book, authors, bookAuthors } from '$lib/server/db/schema';
+import { saveCoverImage } from '$lib/server/covers';
 
 
 
@@ -21,10 +22,6 @@ export const POST: RequestHandler = async ({ request }) => {
         }
     }
     
-    let hasImage = false;
-    if (body.thumbnail){
-        hasImage = true;
-    }
     const bookID = crypto.randomUUID();
     const authorNames = body.author.split('; ').map((name) => name.trim());
     const seriesPosition = body.order === 0 ? null : body.order;
@@ -33,7 +30,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
     try {
         await db.transaction(async (tx) => {
-            await tx.insert(book).values({ uuid: bookID, title: body.title, series: body.series, seriesPosition: seriesPosition, isbn: body.isbn, publisher: body.publisher, publishYear: publishYear, pages: pages, format: body.format, status: body.status, hasImage: hasImage });
+            await tx.insert(book).values({ uuid: bookID, title: body.title, series: body.series, seriesPosition: seriesPosition, isbn: body.isbn, publisher: body.publisher, publishYear: publishYear, pages: pages, format: body.format, status: body.status });
 
             for (const name of authorNames) {
                 const existingAuthCheck = await tx.select().from(authors).where(eq(authors.name, name));
@@ -51,6 +48,13 @@ export const POST: RequestHandler = async ({ request }) => {
     } catch (error) {
         console.error('Failed to add book to library:', error);
         return json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
+    }
+
+    if (body.thumbnail) {
+        const saved = await saveCoverImage(bookID, body.thumbnail);
+        if (saved) {
+            await db.update(book).set({ hasImage: true }).where(eq(book.uuid, bookID));
+        }
     }
 
     return json({ uuid: bookID }, { status: 201 });

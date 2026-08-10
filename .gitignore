@@ -13,7 +13,7 @@ dist/
 !.env.example
 !.env.test
 *.db
-covers/
+/covers/
 .DS_Store
 Thumbs.db
 .vscode/
