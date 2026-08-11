@@ -12,9 +12,10 @@ Libra Draconis is actively in development for creating a self-hosted database fo
 - /search page front end and forms display
 - GoogleBooksAPI requests from search bar
 - POST endpoint in backend server for Postgres Database insert of book data from search results via Drizzle ORM. 
+- API response handling & Image local saving by uuid
 
 ### Current Progress
-- In progress: API response handling & Image local saving by uuid
+- In progress: BookCards Component for Library
 
 ### Future Steps
 - Add additional APIs' results to choose from
