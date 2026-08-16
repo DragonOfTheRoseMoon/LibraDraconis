@@ -86,7 +86,7 @@
 		try {
 			const payload: AddBookPayload = { ...form, thumbnail };
 
-			const response = await fetch('/api/library', {
+			const response = await fetch('/api/search', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)

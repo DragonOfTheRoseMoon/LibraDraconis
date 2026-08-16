@@ -3,6 +3,8 @@
 @plugin '@tailwindcss/typography';
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/themes/cerberus';
+@import '@skeletonlabs/skeleton/themes/nouveau';
+@import '@skeletonlabs/skeleton/themes/catppuccin';
 
 @utility input {
 	--tw-ring-color: var(--color-surface-500);
