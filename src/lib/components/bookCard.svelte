@@ -1,7 +1,7 @@
 <script lang=ts>
+    import type { BookWithAuthors } from '$lib/server/types';
 
-
-
+    let { book }: { book: BookWithAuthors } = $props();
 
 </script>
 
@@ -18,40 +18,41 @@
 			<dl class="space-y-2">
 				<div>
 					<dt class="font-bold">Title:</dt>
-					<dd class="opacity-60">DragonChampion</dd>
+					<dd class="opacity-60">{book.title || '\u00A0'}</dd>
 				</div>
 				<div>
 					<dt class="font-bold">Author:</dt>
-					<dd class="opacity-60">E.E. Knight</dd>
+					<dd class="opacity-60">{book.authors.join(', ') || '\u00A0'}</dd>
 				</div>
 				<div class="flex gap-8">
 					<div>
 						<dt class="font-bold">Series</dt>
-						<dd class="opacity-60">Age of Fire</dd>
+						<dd class="opacity-60">{book.series || '\u00A0'}</dd>
+
 					</div>
 					<div>
 						<dt class="font-bold">Order</dt>
-						<dd class="opacity-60">#?</dd>
+						<dd class="opacity-60">{book.seriesPosition || '\u00A0'}</dd>
 					</div>
 				</div>
 				<div class="flex gap-4">
 					<div>
 						<dt class="font-bold">Publisher</dt>
-						<dd class="opacity-60">Penguin House</dd>
+						<dd class="opacity-60">{book.publisher || '\u00A0'}</dd>
 					</div>
 					<div>
 						<dt class="font-bold">Year</dt>
-						<dd class="opacity-60">1996</dd>
+						<dd class="opacity-60">{book.publishYear || '\u00A0'}</dd>
 					</div>
 				</div>
 				<div class="flex gap-8">
 					<div>
 						<dt class="font-bold">format</dt>
-						<dd class="opacity-60">Book</dd>
+						<dd class="opacity-60">{book.format || '\u00A0'}</dd>
 					</div>
 					<div>
 						<dt class="font-bold">status</dt>
-						<dd class="opacity-60">read</dd>
+						<dd class="opacity-60">{book.status || '\u00A0'}</dd>
 					</div>
 				</div>
 

@@ -1,4 +1,4 @@
-import type { Format, Status } from '$lib/server/db/schema';
+import type { Format, Status, book } from '$lib/server/db/schema';
 
 export interface GoogleBookResult {
     
@@ -30,3 +30,5 @@ export type BookEntryForm = {
 	};
 
 export type AddBookPayload = BookEntryForm & { thumbnail: string | null; };
+
+export type BookWithAuthors = typeof book.$inferSelect & { authors: string[] };

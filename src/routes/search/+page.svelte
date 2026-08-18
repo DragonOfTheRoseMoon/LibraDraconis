@@ -43,7 +43,7 @@
 		const cleanedIsbn = searchisbn.replace(/[\s-]/g, '');
 
 		try {
-			const response = await fetch(`/api/search?isbn=${encodeURIComponent(cleanedIsbn)}`);
+			const response = await fetch(`/search?isbn=${encodeURIComponent(cleanedIsbn)}`);
 
 			if (!response.ok) {
 				searchError = `Could not find a book for ISBN "${cleanedIsbn}".`;
@@ -86,7 +86,7 @@
 		try {
 			const payload: AddBookPayload = { ...form, thumbnail };
 
-			const response = await fetch('/api/search', {
+			const response = await fetch('/search', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
