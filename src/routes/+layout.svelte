@@ -3,13 +3,20 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/components/toaster';
+	import NavBar from '$lib/components/navbar.svelte';
+
 
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
-{@render children()}
 
+<NavBar />
+
+
+<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<main class="pt-3">
+	{@render children()}
+</main>
 
 
 <Toast.Group {toaster} class="flex flex-col gap-2">

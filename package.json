@@ -19,6 +19,8 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^1.33.0",
+		"@skeletonlabs/skeleton-common": "^5.0.1",
 		"drizzle-orm": "^0.45.2",
 		"postgres": "^3.4.9"
 	},
