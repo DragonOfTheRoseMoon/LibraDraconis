@@ -1,7 +1,7 @@
 import type { Format, Status, book } from '$lib/server/db/schema';
 
 export interface GoogleBookResult {
-    
+
 		sourceId: string;
 		title: string;
 		authors: string[];
@@ -16,7 +16,7 @@ export interface GoogleBookResult {
 }
 
 export type BookEntryForm = {
-	
+
 		isbn: string;
 		title: string;
 		author: string;
@@ -32,3 +32,5 @@ export type BookEntryForm = {
 export type AddBookPayload = BookEntryForm & { thumbnail: string | null; };
 
 export type BookWithAuthors = typeof book.$inferSelect & { authors: string[] };
+
+export type BookWithImage = typeof book.$inferSelect & { hasImage: boolean };

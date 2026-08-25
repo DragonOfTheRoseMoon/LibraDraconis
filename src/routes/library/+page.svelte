@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from './$types';
-    import BookCard from '$lib/components/BookCard.svelte';
+    import BookCardDetail from '$lib/components/BookCardDetail.svelte';
 
     let { data }: { data: PageData } = $props();
 
@@ -13,7 +13,6 @@
 
 <div class="space-y-4">
 	{#each data.books as book}
-		<BookCard {book} />
+		<BookCardDetail {book} />
 	{/each}
 </div>
-
