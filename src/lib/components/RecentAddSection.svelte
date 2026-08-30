@@ -2,6 +2,7 @@
 	import { Carousel } from '@skeletonlabs/skeleton-svelte';
 	import BookCardBar from '$lib/components/BookCardBar.svelte';
 	import type { BookWithImage } from '$lib/server/types';
+	import { ChevronLeft , ChevronRight  } from '@lucide/svelte';
 
 	let { books }: { books: Pick<BookWithImage, 'uuid' | 'title' | 'hasImage'>[] } = $props();
 
@@ -25,11 +26,11 @@
 
     	<div class="relative">
     		<Carousel.Control>
-    			<Carousel.PrevTrigger class="btn-icon preset-filled rounded-full absolute top-[50%] left-0 translate-y-[-50%]">
-    				<span>&larr;</span>
+    			<Carousel.PrevTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full absolute top-[50%] left-0 translate-y-[-50%]">
+    				<ChevronLeft size={32} />
     			</Carousel.PrevTrigger>
-    			<Carousel.NextTrigger class="btn-icon preset-filled rounded-full absolute top-[50%] right-0 translate-y-[-50%]">
-    				<span>&rarr;</span>
+    			<Carousel.NextTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full absolute top-[50%] right-0 translate-y-[-50%]">
+    				<ChevronRight size={32} />
     			</Carousel.NextTrigger>
     		</Carousel.Control>
     		<Carousel.ItemGroup>
