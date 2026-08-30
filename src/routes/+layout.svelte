@@ -5,7 +5,6 @@
 	import { toaster } from '$lib/components/toaster';
 	import NavBar from '$lib/components/navbar.svelte';
 
-
 	let { children } = $props();
 </script>
 
@@ -27,4 +26,3 @@
 		</Toast>
 	{/snippet}
 </Toast.Group>
-
