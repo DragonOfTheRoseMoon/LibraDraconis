@@ -34,3 +34,5 @@ export type AddBookPayload = BookEntryForm & { thumbnail: string | null; };
 export type BookWithAuthors = typeof book.$inferSelect & { authors: string[] };
 
 export type BookWithImage = typeof book.$inferSelect & { hasImage: boolean };
+
+export type BookSummary = Pick<BookWithImage, 'uuid' | 'title' | 'hasImage'> & { authors: string };

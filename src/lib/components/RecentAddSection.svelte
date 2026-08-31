@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Carousel } from '@skeletonlabs/skeleton-svelte';
-	import BookCardBar from '$lib/components/BookCardBar.svelte';
-	import type { BookWithImage } from '$lib/server/types';
+	import BookCardCover from '$lib/components/BookCardCover.svelte';
+	import type { BookSummary } from '$lib/server/types';
 	import { ChevronLeft , ChevronRight  } from '@lucide/svelte';
 
-	let { books }: { books: Pick<BookWithImage, 'uuid' | 'title' | 'hasImage'>[] } = $props();
+	let { books }: { books: BookSummary[] } = $props();
 
 	let slidesPerPage = $state(4);
 
@@ -36,7 +36,7 @@
     		<Carousel.ItemGroup>
     		    {#each books as newBook, index}
     				<Carousel.Item index={index} class="flex justify-center items-center">
-    					<BookCardBar book={newBook} />
+    					<BookCardCover book={newBook} />
     				</Carousel.Item>
     			{/each}
     		</Carousel.ItemGroup>
