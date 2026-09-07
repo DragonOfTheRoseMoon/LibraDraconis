@@ -20,16 +20,18 @@
 		return () => window.removeEventListener('resize', updateSlidesPerPage);
 	});
 </script>
-<div class="">
-    <h1 class="text-2xl font-bold mb-4">Recently Added</h1>
-    <Carousel slideCount={books.length} slidesPerPage={slidesPerPage} spacing="16px" padding="48px" autoSize loop>
+<div class="card bg-surface-100-900 p-4 w-full max-w-5xl mx-auto space-y-3">
+    <header>
+        <h3 class="h3">Recently Added</h3>
+    </header>
+    <Carousel slideCount={books.length} slidesPerPage={slidesPerPage} slidesPerMove={2} spacing="16px" padding="48px" autoSize loop>
 
     	<div class="relative">
     		<Carousel.Control>
-    			<Carousel.PrevTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full absolute top-[50%] left-0 translate-y-[-50%]">
+    			<Carousel.PrevTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.9)] absolute top-[50%] left-0 translate-y-[-50%]">
     				<ChevronLeft size={32} />
     			</Carousel.PrevTrigger>
-    			<Carousel.NextTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full absolute top-[50%] right-0 translate-y-[-50%]">
+    			<Carousel.NextTrigger class="btn-icon btn-icon-2xl preset-filled rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.9)] absolute top-[50%] right-0 translate-y-[-50%]">
     				<ChevronRight size={32} />
     			</Carousel.NextTrigger>
     		</Carousel.Control>

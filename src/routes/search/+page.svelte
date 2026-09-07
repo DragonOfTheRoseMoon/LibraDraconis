@@ -3,6 +3,8 @@
 	import logoDraconis from '$lib/assets/logoDraconis.svg'
 	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '$lib/server/types';
 	import { toaster } from '$lib/components/toaster';
+	import { page } from '$app/state';
+	import { untrack } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -29,7 +31,7 @@
 
 
 	function handleClear(){
-		
+
 		form = { ...emptyForm };
 		searchisbn = '';
 		thumbnail = null;
@@ -41,6 +43,16 @@
 
 	async function handleSearch(){
 		const cleanedIsbn = searchisbn.replace(/[\s-]/g, '');
+
+		if (!cleanedIsbn) {
+			searchError = 'Type in an ISBN to start searching.';
+			return;
+		}
+
+		if (!/^\d{9}[\dXx]$/.test(cleanedIsbn) && !/^\d{13}$/.test(cleanedIsbn)) {
+			searchError = 'ISBN must be 10 or 13 digits.';
+			return;
+		}
 
 		try {
 			const response = await fetch(`/search?isbn=${encodeURIComponent(cleanedIsbn)}`);
@@ -72,6 +84,16 @@
 			searchError = 'Something went wrong while searching. Check your connection and try again.';
 		}
 	}
+
+	$effect(() => {
+		const queryIsbn = page.url.searchParams.get('isbn');
+		if (!queryIsbn) return;
+
+		untrack(() => {
+			searchisbn = queryIsbn;
+			handleSearch();
+		});
+	});
 
 
 	async function handleSubmit() {
@@ -195,16 +217,16 @@
 			<div class="flex gap-4 md:col-span-5">
 
 				<label class="label flex-1">
-					<span class="label-text">Pages</span>
-					<input class="input" type="number" min="0" placeholder="0" bind:value={form.pages}/>
-				</label>
-				<label class="label flex-1">
 					<span class="label-text">Format</span>
 					<select class="select field-lg" bind:value={form.format}>
 						{#each data.formats as f (f)}
 							<option value={f}>{f}</option>
 						{/each}
 					</select>
+				</label>
+				<label class="label flex-1">
+					<span class="label-text">Pages</span>
+					<input class="input" type="number" min="0" placeholder="0" bind:value={form.pages}/>
 				</label>
 				<label class="label flex-1">
 					<span class="label-text">Status</span>

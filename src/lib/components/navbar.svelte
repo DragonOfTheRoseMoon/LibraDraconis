@@ -15,8 +15,8 @@ let CurrentIcon = $derived(iconMap[page.route.id as keyof typeof iconMap] ?? Hou
 
 let navbarText = $derived.by(() => {
     if (!page.route.id || page.route.id === '/') return 'LibraDraconis';
-    const name = page.route.id.replace(/^\//, '');
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    const firstSegment = page.route.id.replace(/^\//, '').split('/')[0];
+    return firstSegment.charAt(0).toUpperCase() + firstSegment.slice(1);
 });
 </script>
 

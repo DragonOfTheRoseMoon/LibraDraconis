@@ -2,6 +2,7 @@
     import type { PageData } from './$types';
     import BookCardDetail from '$lib/components/BookCardDetail.svelte';
 
+
     let { data }: { data: PageData } = $props();
 
 
