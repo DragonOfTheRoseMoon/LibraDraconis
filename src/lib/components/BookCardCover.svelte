@@ -23,7 +23,6 @@
 						{:else}
 							<div class="w-full h-full flex flex-col items-center justify-center text-center gap-4 ">
 								<p class="text-xl opacity-70">{book.title}</p>
-								<p class="text-sm opacity-70">{book.authors}</p>
 							</div>
 						{/if}
 					</div>
