@@ -10,11 +10,13 @@
 
 	let { data }: { data: PageData } = $props();
 
+	// svelte-ignore state_referenced_locally
 	let form = $state<BookEntryForm>({ ...data.book });
 	let submitError = $state('');
 	let submitting = $state(false);
 	let deleting = $state(false);
 	let deleteError = $state('');
+	// svelte-ignore state_referenced_locally
 	let hasImage = $state(data.book.hasImage);
 	let imageFailed = $state(false);
 	let coverVersion = $state(0);

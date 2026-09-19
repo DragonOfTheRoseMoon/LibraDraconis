@@ -1,8 +1,7 @@
 <script lang="ts">
     import type { PageData } from './$types';
    	import { SegmentedControl } from '@skeletonlabs/skeleton-svelte';
-
-    import { ChevronLeft, ChevronRight, View } from '@lucide/svelte';
+    import { ChevronLeft, ChevronRight} from '@lucide/svelte';
 
     import BookCardDetail from '$lib/components/BookCardDetail.svelte';
     import BookCardCover from '$lib/components/BookCardCover.svelte';
@@ -14,8 +13,7 @@
 	let value = $state<string | null>('cover');
 
 	let page = $state(1);
-	let pageSize = 30;
-
+	let pageSize = $state(10);
 	let pagedBooks = $derived(data.books.slice((page - 1) * pageSize, page * pageSize));
 	let totalResults = $derived(data.books.length);
 	let totalPages = $derived(Math.ceil(totalResults / pageSize));
@@ -24,6 +22,13 @@
 
 
 
+	function requestNextPage() {
+    page = Math.min(page + 1, totalPages);
+	}
+
+	function requestPreviousPage() {
+    page = Math.max(page - 1, 1);
+	}
 
 </script>
 
@@ -49,11 +54,11 @@
 
 	<!-- Pagination -->
 	<div class="flex items-center gap-4">
-		<button type="button" class="btn-icon btn-icon-2xl preset-filled rounded-full" title="Go" aria-label="Go">
+		<button type="button" class="btn-icon btn-icon-2xl preset-filled rounded-full" onclick={requestPreviousPage} title="Previous Page" aria-label="Go">
 			<ChevronLeft />
 		</button>
 		<h1 class="text-2xl"> {page} of {totalPages}</h1>
-		<button type="button" class="btn-icon btn-icon-2xl preset-filled rounded-full" title="Go" aria-label="Go">
+		<button type="button" class="btn-icon btn-icon-2xl preset-filled rounded-full" onclick={requestNextPage} title="Next Page" aria-label="Go">
 			<ChevronRight />
 		</button>
 	</div>
