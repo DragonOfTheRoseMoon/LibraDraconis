@@ -32,28 +32,13 @@
 
 </script>
 
+<div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-8">
 
+    <!-- Left spacer (reserved for future filters) -->
+    <div></div>
 
-	<!-- View Toggle -->
-<div class="flex flex-col items-center gap-3 mb-8">
-	<SegmentedControl {value} onValueChange={(details) => (value = details.value)}>
-		<SegmentedControl.Control>
-			<SegmentedControl.Indicator />
-			<SegmentedControl.Item value="cover">
-				<SegmentedControl.ItemText>Cover</SegmentedControl.ItemText>
-				<SegmentedControl.ItemHiddenInput />
-			</SegmentedControl.Item>
-			<SegmentedControl.Item value="details">
-				<SegmentedControl.ItemText>Details</SegmentedControl.ItemText>
-				<SegmentedControl.ItemHiddenInput />
-			</SegmentedControl.Item>
-		</SegmentedControl.Control>
-	</SegmentedControl>
-
-
-
-	<!-- Pagination -->
-	<div class="flex items-center gap-4">
+    <!-- Pagination -->
+    <div class="flex items-center gap-4">
 		<button type="button" class="btn-icon btn-icon-2xl preset-filled rounded-full" onclick={requestPreviousPage} title="Previous Page" aria-label="Go">
 			<ChevronLeft />
 		</button>
@@ -62,7 +47,37 @@
 			<ChevronRight />
 		</button>
 	</div>
+
+    <!-- View Toggle + Books Per Page, side by side on the right -->
+    <div class="flex items-center justify-end gap-4 pr-4">
+        <label class="flex items-center gap-2">
+       	<span class="label-text">View Per Page</span>
+            <select class="select field-lg w-20" bind:value={pageSize} onchange={() => (page = 1)}>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+            </select>
+        </label>
+
+        <SegmentedControl {value} onValueChange={(details) => (value = details.value)}>
+    		<SegmentedControl.Control>
+    			<SegmentedControl.Indicator />
+    			<SegmentedControl.Item value="cover">
+    				<SegmentedControl.ItemText>Cover</SegmentedControl.ItemText>
+    				<SegmentedControl.ItemHiddenInput />
+    			</SegmentedControl.Item>
+    			<SegmentedControl.Item value="details">
+    				<SegmentedControl.ItemText>Details</SegmentedControl.ItemText>
+    				<SegmentedControl.ItemHiddenInput />
+    			</SegmentedControl.Item>
+    		</SegmentedControl.Control>
+    	</SegmentedControl>
+    </div>
+
 </div>
+
+
+
 
 
 
