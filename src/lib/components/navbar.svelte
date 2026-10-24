@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AppBar, Menu, Portal } from '@skeletonlabs/skeleton-svelte';
-    import { MenuIcon, House, Search as SearchIcon, Library as LibraryIcon, Heart } from '@lucide/svelte';
+    import { MenuIcon, House, Search as SearchIcon, Library as LibraryIcon, ChartNoAxesCombined as Chart, Heart } from '@lucide/svelte';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
 
@@ -8,7 +8,9 @@ const iconMap = {
     '/': House,
     '/search': SearchIcon,
     '/library': LibraryIcon,
+    '/stats': Chart,
     '/wishlist': Heart
+
 };
 
 let CurrentIcon = $derived(iconMap[page.route.id as keyof typeof iconMap] ?? House);
@@ -47,6 +49,10 @@ let navbarText = $derived.by(() => {
                             <Menu.Item value="/library" class="flex items-center gap-2">
                                 <LibraryIcon size={16} />
                                 <Menu.ItemText class="hover:underline hover:text-primary-500 lg:text-lg">Library</Menu.ItemText>
+                            </Menu.Item>
+                            <Menu.Item value="/stats" class="flex items-center gap-2">
+                                <Chart size={16} />
+                                <Menu.ItemText class="hover:underline hover:text-primary-500 lg:text-lg">Statistics</Menu.ItemText>
                             </Menu.Item>
                             <Menu.Item value="/wishlist" class="flex items-center gap-2">
                                 <Heart size={16} />
