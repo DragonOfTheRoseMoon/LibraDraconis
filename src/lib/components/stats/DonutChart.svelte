@@ -61,7 +61,7 @@
     					class="slice"
     					class:dim={hovered !== null && hovered !== i}
     					style:transform={hovered === i ? `translate(${a.hoverDistX}px, ${a.hoverDistY}px)` : 'none'}
-    					style:filter={hovered === i ? `drop-shadow(0 0 8px ${a.color})` : 'none'}
+    					style:filter={hovered === i ? `drop-shadow(0 0 8px ${a.color})` : `drop-shadow(0 0 0px ${a.color})`}
     					role="img"
     					aria-label="{a.label}: {a.value}"
     					onmouseenter={() => (hovered = i)}
