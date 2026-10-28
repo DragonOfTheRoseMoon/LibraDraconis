@@ -1,3 +1,4 @@
+import type { UUID } from "node:crypto";
 
 export interface ChartSliceInput {
 
@@ -14,3 +15,14 @@ export interface ChartSliceComputed extends ChartSliceInput {
     hoverDistY: number;
 
 };
+
+export interface FunFacts {
+
+    title: string;
+    uuid: string;
+    hasImage: boolean;
+    year?: number | null;
+    pages?: number | null;
+
+
+}

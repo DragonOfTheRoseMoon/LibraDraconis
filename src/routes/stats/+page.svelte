@@ -1,6 +1,7 @@
 <script lang="ts">
+    import FunFactCard from '$lib/components/stats/FunFactCard.svelte';
 	import DonutChart from '$lib/components/stats/DonutChart.svelte';
-	import type { ChartSliceInput } from '$lib/components/stats/types';
+	import type { ChartSliceInput} from '$lib/components/stats/types';
 	import type { PageData } from './$types';
 	import type { Status } from '$lib/server/db/schema';
 
@@ -13,12 +14,18 @@
 	};
 
 	const slices = $derived<ChartSliceInput[]>(
-		data.rows.map((row) => ({
-			label: row.status,
-			value: row.total,
-			color: statusColors[row.status]
+		data.sliceStats.map((sliceStats) => ({
+			label: sliceStats.status,
+			value: sliceStats.total,
+			color: statusColors[sliceStats.status]
 		}))
 	);
 </script>
 
-<DonutChart {slices} />
+<div class="py-4">
+    <DonutChart {slices}  />
+</div>
+
+<div>
+    <FunFactCard oldest={data.oldest} newest={data.newest} longest={data.longest} />
+</div>
