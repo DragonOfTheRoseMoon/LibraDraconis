@@ -46,14 +46,14 @@
 	}
 </script>
 
-<div class="card mx-auto w-full max-w-xs preset-filled-surface-100-900 p-5 text-center">
-   	<header>
-		<h3 class="h3">Library</h3>
-	</header>
-    <div class="flex flex-col items-center gap-6 p-6">
+<div class="card mx-auto w-7/8 max-w-3xl preset-filled-surface-100-900 px-4 py-2 text-center">
+    <fieldset class="fieldset">
+    <legend class="legend text-left">Your Collection</legend>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+    <div class="card preset-filled-surface-300-700 md:col-span-2 my-1 md:my-2 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-6 p-3 md:p-4">
     	<!-- svelte-ignore a11y_no_static_element_interactions -->
-    	<div class="chart" onmousemove={onMove} onmouseleave={() => (hovered = null)}>
-    		<svg viewBox="0 0 {SIZE} {SIZE}" width={SIZE} height={SIZE} role="img" aria-label="Donut chart">
+    	<div class="chart w-full max-w-80 md:flex-1 md:min-w-0 md:max-w-72" onmousemove={onMove} onmouseleave={() => (hovered = null)}>
+    		<svg viewBox="0 0 {SIZE} {SIZE}" class="w-full h-auto drop-shadow-[0_8px_20px_rgb(0_0_0/0.7)]" role="img" aria-label="Donut chart">
     			{#each arcs as a, i}
     				<path
     					d={a.svgPath}
@@ -85,20 +85,26 @@
     		{/if}
     	</div>
 
-    	<ul class="space-y-1">
-    		{#each arcs as a, i}
-    			<li
-    				class="legend-item flex items-center gap-2"
-    				class:active={hovered === i}
-    				onmouseenter={() => (hovered = i)}
-    				onmouseleave={() => (hovered = null)}
-    			>
-    				<span class="legend-dot" style:background={a.color}></span>
-    				{a.label}: {((a.value / total) * 100).toFixed(0)}%
-    			</li>
-    		{/each}
-    	</ul>
+    	<div class="flex flex-col items-center md:items-start gap-3">
+    		<ul class="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1 md:flex-col md:flex-nowrap md:justify-start md:gap-y-2 md:text-left">
+    			{#each arcs as a, i}
+    				<li
+    					class="legend-item flex items-center gap-2"
+    					class:active={hovered === i}
+    					onmouseenter={() => (hovered = i)}
+    					onmouseleave={() => (hovered = null)}
+    				>
+    					<span class="legend-dot shadow-[0_2px_6px_rgb(0_0_0/0.7)]" style:background={a.color}></span>
+    					{a.label}: {((a.value / total) * 100).toFixed(0)}%
+    				</li>
+    			{/each}
+    		</ul>
+    	</div>
     </div>
+    <!-- Filler card: keeps the chart two fact-cards wide -->
+    <div class="card preset-filled-surface-200-800 my-1 md:my-2 hidden md:block" aria-hidden="true"></div>
+    </div>
+    </fieldset>
 </div>
 <style>
 	.chart {
