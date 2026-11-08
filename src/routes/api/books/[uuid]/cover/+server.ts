@@ -1,8 +1,8 @@
 import { json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { book } from '$lib/server/db/schema';
-import { writeCoverImage } from '$lib/server/covers';
+import { db } from '#lib/server/db/index.ts';
+import { book } from '#lib/server/db/schema.ts';
+import { writeCoverImage } from '#lib/server/covers.ts';
 import type { RequestHandler } from './$types';
 
 export const PUT: RequestHandler = async ({ params, request }) => {

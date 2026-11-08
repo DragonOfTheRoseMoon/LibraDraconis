@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { BookSummary } from '$lib/server/types';
-	import BookViewModal from '$lib/components/BookViewModal.svelte';
+	import type { BookSummary } from '#lib/server/types.ts';
+	import BookViewModal from '#lib/components/BookViewModal.svelte';
 
 	let { book }: { book: BookSummary } = $props();
 

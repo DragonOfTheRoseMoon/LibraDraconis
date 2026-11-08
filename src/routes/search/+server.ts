@@ -1,11 +1,11 @@
 import { json } from '@sveltejs/kit';
-import { searchBooks } from '$lib/server/google-books/client';
+import { searchBooks } from '#lib/server/google-books/client.ts';
 import type { RequestHandler } from './$types';
-import type { AddBookPayload } from '$lib/server/types';
+import type { AddBookPayload } from '#lib/server/types.ts';
 import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { book, authors, bookAuthors } from '$lib/server/db/schema';
-import { saveCoverImage } from '$lib/server/covers';
+import { db } from '#lib/server/db/index.ts';
+import { book, authors, bookAuthors } from '#lib/server/db/schema.ts';
+import { saveCoverImage } from '#lib/server/covers.ts';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const isbn = url.searchParams.get('isbn');

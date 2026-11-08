@@ -1,8 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { book, authors, bookAuthors, formatEnum, statusEnum } from '$lib/server/db/schema';
+import { db } from '#lib/server/db/index.ts';
+import { book, authors, bookAuthors, formatEnum, statusEnum } from '#lib/server/db/schema.ts';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const rows = await db

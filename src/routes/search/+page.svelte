@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import logoDraconis from '$lib/assets/logoDraconis.svg';
-	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '$lib/server/types';
-	import { toaster } from '$lib/components/toaster';
+	import logoDraconis from '#lib/assets/logoDraconis.svg';
+	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '#lib/server/types.ts';
+	import { toaster } from '#lib/components/toaster.ts';
 	import { page } from '$app/state';
 	import { untrack } from 'svelte';
 

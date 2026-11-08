@@ -1,4 +1,4 @@
-import type { Format, Status, book } from '$lib/server/db/schema';
+import type { Format, Status, book } from '#lib/server/db/schema.ts';
 
 export interface GoogleBookResult {
 	sourceId: string;

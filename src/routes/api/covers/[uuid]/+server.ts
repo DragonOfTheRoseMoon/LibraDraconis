@@ -1,4 +1,4 @@
-import { readCoverImage } from '$lib/server/covers';
+import { readCoverImage } from '#lib/server/covers.ts';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {

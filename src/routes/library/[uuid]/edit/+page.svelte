@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import type { PageData } from './$types';
-	import type { BookEntryForm } from '$lib/server/types';
-	import { toaster } from '$lib/components/toaster';
+	import type { BookEntryForm } from '#lib/server/types.ts';
+	import { toaster } from '#lib/components/toaster.ts';
 	import { Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
 
 	const dialogAnimation =

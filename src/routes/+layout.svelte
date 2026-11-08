@@ -1,9 +1,9 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '#lib/assets/favicon.svg';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
-	import { toaster } from '$lib/components/toaster';
-	import NavBar from '$lib/components/navbar.svelte';
+	import { toaster } from '#lib/components/toaster.ts';
+	import NavBar from '#lib/components/navbar.svelte';
 
 	let { children } = $props();
 </script>

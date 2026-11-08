@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { book, authors, bookAuthors } from '$lib/server/db/schema';
-import type { BookEntryForm, BookWithAuthors } from '$lib/server/types';
-import { deleteCoverImage } from '$lib/server/covers';
+import { db } from '#lib/server/db/index.ts';
+import { book, authors, bookAuthors } from '#lib/server/db/schema.ts';
+import type { BookEntryForm, BookWithAuthors } from '#lib/server/types.ts';
+import { deleteCoverImage } from '#lib/server/covers.ts';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {

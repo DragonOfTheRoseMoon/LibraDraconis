@@ -2,8 +2,8 @@
 	import type { Snippet } from 'svelte';
 	import XIcon from '@lucide/svelte/icons/x';
 	import { Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
-	import type { BookWithAuthors } from '$lib/server/types';
-	import BookCardDetail from '$lib/components/BookCardDetail.svelte';
+	import type { BookWithAuthors } from '#lib/server/types.ts';
+	import BookCardDetail from '#lib/components/BookCardDetail.svelte';
 
 	let { uuid, trigger }: { uuid: string; trigger: Snippet } = $props();
 

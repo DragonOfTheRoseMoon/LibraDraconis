@@ -1,8 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { book, authors, bookAuthors } from '$lib/server/db/schema';
-import type { BookWithAuthors } from '$lib/server/types';
+import { db } from '#lib/server/db/index.ts';
+import { book, authors, bookAuthors } from '#lib/server/db/schema.ts';
+import type { BookWithAuthors } from '#lib/server/types.ts';
 
 export const load: PageServerLoad = async () => {
 	const rows = await db

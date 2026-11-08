@@ -3,8 +3,8 @@
 	import { SegmentedControl } from '@skeletonlabs/skeleton-svelte';
 	import { ChevronLeft, ChevronRight } from '@lucide/svelte';
 
-	import BookCardDetail from '$lib/components/BookCardDetail.svelte';
-	import BookCardCover from '$lib/components/BookCardCover.svelte';
+	import BookCardDetail from '#lib/components/BookCardDetail.svelte';
+	import BookCardCover from '#lib/components/BookCardCover.svelte';
 
 	let { data }: { data: PageData } = $props();
 

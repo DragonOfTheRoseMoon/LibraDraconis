@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import type { PageData } from './$types';
-	import RecentAddSection from '$lib/components/RecentAddSection.svelte';
+	import RecentAddSection from '#lib/components/RecentAddSection.svelte';
 	import { goto } from '$app/navigation';
-	import logoDraconis from '$lib/assets/logoDraconis.svg';
+	import logoDraconis from '#lib/assets/logoDraconis.svg';
 
 	let { data }: { data: PageData } = $props();
 
