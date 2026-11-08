@@ -18,54 +18,62 @@ export const GET: RequestHandler = async ({ url }) => {
 	return json(data);
 };
 
-
-
-
 export const POST: RequestHandler = async ({ request }) => {
-    const body = await request.json() as AddBookPayload;
+	const body = (await request.json()) as AddBookPayload;
 
-    if (body.isbn) {
-        const existingBookCheck = await db.select().from(book).where(eq(book.isbn, body.isbn));
+	if (body.isbn) {
+		const existingBookCheck = await db.select().from(book).where(eq(book.isbn, body.isbn));
 
-        if (existingBookCheck.length > 0) {
-            return json({ error: 'This ISBN is already in your library.' }, { status: 409 });
-        }
-    }
-    
-    const bookID = crypto.randomUUID();
-    const authorNames = body.author.split('; ').map((name) => name.trim());
-    const seriesPosition = body.order === 0 ? null : body.order;
-    const publishYear = body.publishYear === 0 ? null : body.publishYear;
-    const pages = body.pages === 0 ? null : body.pages;
+		if (existingBookCheck.length > 0) {
+			return json({ error: 'This ISBN is already in your library.' }, { status: 409 });
+		}
+	}
 
-    try {
-        await db.transaction(async (tx) => {
-            await tx.insert(book).values({ uuid: bookID, title: body.title, series: body.series, seriesPosition: seriesPosition, isbn: body.isbn, publisher: body.publisher, publishYear: publishYear, pages: pages, format: body.format, status: body.status });
+	const bookID = crypto.randomUUID();
+	const authorNames = body.author.split('; ').map((name) => name.trim());
+	const seriesPosition = body.order === 0 ? null : body.order;
+	const publishYear = body.publishYear === 0 ? null : body.publishYear;
+	const pages = body.pages === 0 ? null : body.pages;
 
-            for (const name of authorNames) {
-                const existingAuthCheck = await tx.select().from(authors).where(eq(authors.name, name));
+	try {
+		await db.transaction(async (tx) => {
+			await tx.insert(book).values({
+				uuid: bookID,
+				title: body.title,
+				series: body.series,
+				seriesPosition: seriesPosition,
+				isbn: body.isbn,
+				publisher: body.publisher,
+				publishYear: publishYear,
+				pages: pages,
+				format: body.format,
+				status: body.status
+			});
 
-                if (existingAuthCheck.length === 0) {
-                    const authorID = crypto.randomUUID();
-                    await tx.insert(authors).values({ uuid: authorID, name });
-                    await tx.insert(bookAuthors).values({ bookUuid: bookID, authorUuid: authorID });
-                } else {
-                    const authorID = existingAuthCheck[0].uuid;
-                    await tx.insert(bookAuthors).values({ bookUuid: bookID, authorUuid: authorID });
-                }
-            }
-        });
-    } catch (error) {
-        console.error('Failed to add book to library:', error);
-        return json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
-    }
+			for (const name of authorNames) {
+				const existingAuthCheck = await tx.select().from(authors).where(eq(authors.name, name));
 
-    if (body.thumbnail) {
-        const saved = await saveCoverImage(bookID, body.thumbnail);
-        if (saved) {
-            await db.update(book).set({ hasImage: true }).where(eq(book.uuid, bookID));
-        }
-    }
+				if (existingAuthCheck.length === 0) {
+					const authorID = crypto.randomUUID();
+					await tx.insert(authors).values({ uuid: authorID, name });
+					await tx.insert(bookAuthors).values({ bookUuid: bookID, authorUuid: authorID });
+				} else {
+					const authorID = existingAuthCheck[0].uuid;
+					await tx.insert(bookAuthors).values({ bookUuid: bookID, authorUuid: authorID });
+				}
+			}
+		});
+	} catch (error) {
+		console.error('Failed to add book to library:', error);
+		return json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
+	}
 
-    return json({ uuid: bookID }, { status: 201 });
+	if (body.thumbnail) {
+		const saved = await saveCoverImage(bookID, body.thumbnail);
+		if (saved) {
+			await db.update(book).set({ hasImage: true }).where(eq(book.uuid, bookID));
+		}
+	}
+
+	return json({ uuid: bookID }, { status: 201 });
 };

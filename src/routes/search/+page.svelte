@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import logoDraconis from '$lib/assets/logoDraconis.svg'
+	import logoDraconis from '$lib/assets/logoDraconis.svg';
 	import type { GoogleBookResult, BookEntryForm, AddBookPayload } from '$lib/server/types';
 	import { toaster } from '$lib/components/toaster';
 	import { page } from '$app/state';
@@ -8,18 +8,18 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const emptyForm: BookEntryForm = ({
-			isbn: '',
-			title: '',
-			author: '',
-			series: '',
-			order: 0,
-			publisher: '',
-			publishYear: 0,
-			format: 'book',
-			status: 'unread',
-			pages: 0
-		});
+	const emptyForm: BookEntryForm = {
+		isbn: '',
+		title: '',
+		author: '',
+		series: '',
+		order: 0,
+		publisher: '',
+		publishYear: 0,
+		format: 'book',
+		status: 'unread',
+		pages: 0
+	};
 
 	let form = $state({ ...emptyForm });
 	let searchisbn = $state('');
@@ -29,9 +29,7 @@
 	let submitError = $state('');
 	let submitting = $state(false);
 
-
-	function handleClear(){
-
+	function handleClear() {
 		form = { ...emptyForm };
 		searchisbn = '';
 		thumbnail = null;
@@ -39,9 +37,7 @@
 		searchError = '';
 	}
 
-
-
-	async function handleSearch(){
+	async function handleSearch() {
 		const cleanedIsbn = searchisbn.replace(/[\s-]/g, '');
 
 		if (!cleanedIsbn) {
@@ -67,7 +63,6 @@
 			hasSearched = true;
 			searchisbn = '';
 
-
 			form = {
 				...form,
 				isbn: result.isbn ?? '',
@@ -78,8 +73,6 @@
 				publishYear: result.publishYear ?? 0,
 				pages: result.pageCount ?? 0
 			};
-
-
 		} catch {
 			searchError = 'Something went wrong while searching. Check your connection and try again.';
 		}
@@ -94,7 +87,6 @@
 			handleSearch();
 		});
 	});
-
 
 	async function handleSubmit() {
 		if (!form.title.trim()) {
@@ -121,7 +113,7 @@
 					title: 'Save Failed',
 					description: `Your book was not added to the database. ${submitError}`,
 					type: 'error'
-			});
+				});
 				return;
 			}
 
@@ -137,34 +129,42 @@
 			toaster.create({
 				title: 'Save Failed',
 				description: `Your book was not added to the database. ${submitError}`,
-				type: 'error'});
+				type: 'error'
+			});
 		} finally {
 			submitting = false;
 		}
 	}
 </script>
 
-<div class="flex items-center justify-center m-9">
+<div class="m-9 flex items-center justify-center">
 	<img src={logoDraconis} alt="LibraDraconis logo" class="w-80" />
 </div>
 
-<form class="card bg-surface-100-900 p-4 w-full max-w-xl mx-auto space-y-3">
+<form class="mx-auto w-full max-w-xl space-y-3 card bg-surface-100-900 p-4">
 	<header>
 		<h3 class="h3">Search</h3>
 	</header>
 	<fieldset class="fieldset space-y-2">
 		<legend class="legend">Search by ISBN</legend>
-		<div class="grid grid-cols-1 md:grid-cols-5 gap-x-2 gap-y-4">
+		<div class="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-5">
 			<label class="label md:col-span-4">
-				<input class="input" type="text" placeholder="Input 10 or 13 digit ISBN to search..." bind:value={searchisbn} />
+				<input
+					class="input"
+					type="text"
+					placeholder="Input 10 or 13 digit ISBN to search..."
+					bind:value={searchisbn}
+				/>
 			</label>
 
 			<div class="flex justify-center md:col-span-1">
-				<button type="button" class="btn preset-filled min-w-24" onclick={handleSearch}>Search</button>
+				<button type="button" class="btn min-w-24 preset-filled" onclick={handleSearch}
+					>Search</button
+				>
 			</div>
 
 			{#if searchError}
-				<p class="text-error-500 text-sm md:col-span-5">{searchError}</p>
+				<p class="text-sm text-error-500 md:col-span-5">{searchError}</p>
 			{/if}
 		</div>
 	</fieldset>
@@ -172,9 +172,11 @@
 	<fieldset class="fieldset space-y-2">
 		<legend class="legend">Book Info</legend>
 
-		<div class="grid grid-cols-1 md:grid-cols-5 gap-x-2 gap-y-4 ">
+		<div class="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-5">
 			<div class="md:col-span-2 md:row-span-4">
-				<div class="aspect-2/3 w-full overflow-hidden rounded border border-surface-300-700 flex items-center justify-center p-3 text-center">
+				<div
+					class="flex aspect-2/3 w-full items-center justify-center overflow-hidden rounded border border-surface-300-700 p-3 text-center"
+				>
 					{#if thumbnail}
 						<img src={thumbnail} alt="Book cover" class="h-full w-full object-cover" />
 					{:else if hasSearched}
@@ -191,11 +193,11 @@
 			</label>
 			<label class="label md:col-span-3">
 				<span class="label-text">Title</span>
-				<input class="input" type="text" placeholder="Book Title" bind:value={form.title}/>
+				<input class="input" type="text" placeholder="Book Title" bind:value={form.title} />
 			</label>
 			<label class="label md:col-span-3">
 				<span class="label-text">Author</span>
-				<input class="input" type="text" placeholder="Author" bind:value={form.author}/>
+				<input class="input" type="text" placeholder="Author" bind:value={form.author} />
 			</label>
 			<label class="label md:col-span-2">
 				<span class="label-text">Publisher</span>
@@ -203,19 +205,18 @@
 			</label>
 			<label class="label flex-1">
 				<span class="label-text">Publish Year</span>
-				<input class="input" type="number" min="0" placeholder="0" bind:value={form.publishYear}/>
+				<input class="input" type="number" min="0" placeholder="0" bind:value={form.publishYear} />
 			</label>
 			<label class="label md:col-span-4">
 				<span class="label-text">Series</span>
-				<input class="input" type="text" placeholder="Series Title" bind:value={form.series}/>
+				<input class="input" type="text" placeholder="Series Title" bind:value={form.series} />
 			</label>
-			<label class="label col-span-1">
+			<label class="col-span-1 label">
 				<span class="label-text">Series Order</span>
-				<input class="input" type="number" min="0" placeholder="0" bind:value={form.order}/>
+				<input class="input" type="number" min="0" placeholder="0" bind:value={form.order} />
 			</label>
 
 			<div class="flex gap-4 md:col-span-5">
-
 				<label class="label flex-1">
 					<span class="label-text">Format</span>
 					<select class="select field-lg" bind:value={form.format}>
@@ -226,7 +227,7 @@
 				</label>
 				<label class="label flex-1">
 					<span class="label-text">Pages</span>
-					<input class="input" type="number" min="0" placeholder="0" bind:value={form.pages}/>
+					<input class="input" type="number" min="0" placeholder="0" bind:value={form.pages} />
 				</label>
 				<label class="label flex-1">
 					<span class="label-text">Status</span>
@@ -237,17 +238,23 @@
 					</select>
 				</label>
 			</div>
-
 		</div>
 	</fieldset>
 
 	<footer class="flex flex-col items-end gap-2">
 		{#if submitError}
-			<p class="text-error-500 text-sm">{submitError}</p>
+			<p class="text-sm text-error-500">{submitError}</p>
 		{/if}
 		<div class="flex justify-end gap-x-2">
-			<button type="button" class="btn preset-filled min-w-24" onclick={handleClear} disabled={submitting}>Clear</button>
-			<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}>Add To Library</button>
+			<button
+				type="button"
+				class="btn min-w-24 preset-filled"
+				onclick={handleClear}
+				disabled={submitting}>Clear</button
+			>
+			<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}
+				>Add To Library</button
+			>
 		</div>
 	</footer>
 </form>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import type { PageData } from './$types';
 	import type { BookEntryForm } from '$lib/server/types';
 	import { toaster } from '$lib/components/toaster';
@@ -50,7 +51,11 @@
 			hasImage = true;
 			imageFailed = false;
 			coverVersion += 1;
-			toaster.create({ title: 'Cover Updated', description: 'The book cover was uploaded.', type: 'success' });
+			toaster.create({
+				title: 'Cover Updated',
+				description: 'The book cover was uploaded.',
+				type: 'success'
+			});
 		} catch {
 			coverError = 'Something went wrong while uploading. Check your connection and try again.';
 			toaster.create({ title: 'Upload Failed', description: coverError, type: 'error' });
@@ -93,7 +98,7 @@
 				type: 'success'
 			});
 
-			goto('/library');
+			goto(resolve('/library'));
 		} catch {
 			submitError = 'Something went wrong while saving. Check your connection and try again.';
 			toaster.create({
@@ -130,7 +135,7 @@
 				type: 'success'
 			});
 
-			goto('/library');
+			goto(resolve('/library'));
 		} catch {
 			deleteError = 'Something went wrong while deleting. Check your connection and try again.';
 			toaster.create({
@@ -144,7 +149,7 @@
 	}
 </script>
 
-<form class="card bg-surface-100-900 p-4 w-full max-w-xl mx-auto space-y-3">
+<form class="mx-auto w-full max-w-xl space-y-3 card bg-surface-100-900 p-4">
 	<header>
 		<h3 class="h3">Edit Book</h3>
 	</header>
@@ -152,9 +157,11 @@
 	<fieldset class="fieldset space-y-2">
 		<legend class="legend">Book Info</legend>
 
-		<div class="grid grid-cols-1 md:grid-cols-5 gap-x-2 gap-y-4 ">
-			<div class="md:col-span-2 md:row-span-4 space-y-2">
-				<label class="group relative aspect-2/3 w-full overflow-hidden rounded border border-surface-300-700 flex items-center justify-center p-3 text-center cursor-pointer">
+		<div class="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-5">
+			<div class="space-y-2 md:col-span-2 md:row-span-4">
+				<label
+					class="group relative flex aspect-2/3 w-full cursor-pointer items-center justify-center overflow-hidden rounded border border-surface-300-700 p-3 text-center"
+				>
 					{#if hasImage && !imageFailed}
 						<img
 							src="/api/covers/{data.book.uuid}?v={coverVersion}"
@@ -166,7 +173,9 @@
 						<p class="text-sm opacity-70">No cover available</p>
 					{/if}
 
-					<div class="absolute inset-0 flex items-center justify-center bg-surface-950/70 opacity-0 group-hover:opacity-100 transition-opacity">
+					<div
+						class="absolute inset-0 flex items-center justify-center bg-surface-950/70 opacity-0 transition-opacity group-hover:opacity-100"
+					>
 						<span class="text-sm font-medium text-white">
 							{uploadingCover ? 'Uploading...' : 'Upload New Image'}
 						</span>
@@ -182,7 +191,7 @@
 					/>
 				</label>
 				{#if coverError}
-					<p class="text-error-500 text-sm">{coverError}</p>
+					<p class="text-sm text-error-500">{coverError}</p>
 				{/if}
 			</div>
 
@@ -210,7 +219,7 @@
 				<span class="label-text">Series</span>
 				<input class="input" type="text" placeholder="Series Title" bind:value={form.series} />
 			</label>
-			<label class="label col-span-1">
+			<label class="col-span-1 label">
 				<span class="label-text">Series Order</span>
 				<input class="input" type="number" min="0" placeholder="0" bind:value={form.order} />
 			</label>
@@ -242,25 +251,33 @@
 
 	<footer class="flex flex-col gap-2">
 		{#if submitError}
-			<p class="text-error-500 text-sm">{submitError}</p>
+			<p class="text-sm text-error-500">{submitError}</p>
 		{/if}
-		<div class="flex justify-between items-center gap-x-2">
+		<div class="flex items-center justify-between gap-x-2">
 			<Dialog>
 				<Dialog.Trigger class="btn preset-filled-error-500">Delete Book</Dialog.Trigger>
 				<Portal>
 					<Dialog.Backdrop class="fixed inset-0 z-50 bg-surface-50-950/90" />
-					<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
-						<Dialog.Content class="card bg-surface-100-900 w-full max-w-md p-4 space-y-4 shadow-xl {dialogAnimation}">
+					<Dialog.Positioner class="fixed inset-0 z-50 flex items-center justify-center p-4">
+						<Dialog.Content
+							class="w-full max-w-md space-y-4 card bg-surface-100-900 p-4 shadow-xl {dialogAnimation}"
+						>
 							<Dialog.Title class="text-lg font-bold">Delete "{data.book.title}"?</Dialog.Title>
 							<Dialog.Description>
-								This permanently removes the book, its cover image, and author links. This can't be undone.
+								This permanently removes the book, its cover image, and author links. This can't be
+								undone.
 							</Dialog.Description>
 							{#if deleteError}
-								<p class="text-error-500 text-sm">{deleteError}</p>
+								<p class="text-sm text-error-500">{deleteError}</p>
 							{/if}
 							<footer class="flex justify-end gap-2">
 								<Dialog.CloseTrigger class="btn preset-tonal">Cancel</Dialog.CloseTrigger>
-								<button type="button" class="btn preset-filled-error-500" onclick={handleDelete} disabled={deleting}>
+								<button
+									type="button"
+									class="btn preset-filled-error-500"
+									onclick={handleDelete}
+									disabled={deleting}
+								>
 									Confirm Delete
 								</button>
 							</footer>
@@ -270,8 +287,10 @@
 			</Dialog>
 
 			<div class="flex justify-end gap-x-2">
-				<a class="btn preset-tonal min-w-24" href="/library">Cancel</a>
-				<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}>Save Changes</button>
+				<a class="btn min-w-24 preset-tonal" href={resolve('/library')}>Cancel</a>
+				<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}
+					>Save Changes</button
+				>
 			</div>
 		</div>
 	</footer>

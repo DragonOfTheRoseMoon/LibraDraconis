@@ -1,33 +1,36 @@
-<script lang=ts>
-    import type { BookWithAuthors } from '$lib/server/types';
-    import PencilSparklesIcon from '@lucide/svelte/icons/pencil-sparkles';
+<script lang="ts">
+	import { resolve } from '$app/paths';
+	import type { BookWithAuthors } from '$lib/server/types';
+	import PencilSparklesIcon from '@lucide/svelte/icons/pencil-sparkles';
 
-    let { book }: { book: BookWithAuthors } = $props();
+	let { book }: { book: BookWithAuthors } = $props();
 
-    let imageFailed = $state(false);
-
-
+	let imageFailed = $state(false);
 </script>
 
-
-<div class="card bg-surface-100-900 p-4 w-full max-w-xl mx-auto space-y-3 relative">
+<div class="relative mx-auto w-full max-w-xl space-y-3 card bg-surface-100-900 p-4">
 	<a
-		href="/library/{book.uuid}/edit"
-		class="btn-icon preset-tonal absolute top-2 right-2"
+		href={resolve('/library/[uuid]/edit', { uuid: book.uuid })}
+		class="absolute top-2 right-2 btn-icon preset-tonal"
 		aria-label="Edit book"
 	>
 		<PencilSparklesIcon class="size-4" />
 	</a>
-	<div class="grid grid-cols-1 md:grid-cols-5 gap-x-2 gap-y-0">
+	<div class="grid grid-cols-1 gap-x-2 gap-y-0 md:grid-cols-5">
 		<div class="md:col-span-2 md:row-span-5">
-			<div class="aspect-2/3 w-full overflow-hidden rounded border border-surface-300-700 flex items-center justify-center p-3 text-center">
-
+			<div
+				class="flex aspect-2/3 w-full items-center justify-center overflow-hidden rounded border border-surface-300-700 p-3 text-center"
+			>
 				{#if book.hasImage && !imageFailed}
-					<img src="/api/covers/{book.uuid}" class="w-full h-full object-cover object-center" alt="{book.title} cover" onerror={() => imageFailed = true}>
+					<img
+						src="/api/covers/{book.uuid}"
+						class="h-full w-full object-cover object-center"
+						alt="{book.title} cover"
+						onerror={() => (imageFailed = true)}
+					/>
 				{:else}
 					<p class="text-sm opacity-70">No image Available</p>
 				{/if}
-
 			</div>
 		</div>
 

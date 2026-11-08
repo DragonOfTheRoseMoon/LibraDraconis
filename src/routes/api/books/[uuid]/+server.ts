@@ -59,7 +59,8 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 			for (const name of authorNames) {
 				const existingAuthCheck = await tx.select().from(authors).where(eq(authors.name, name));
 
-				const authorID = existingAuthCheck.length > 0 ? existingAuthCheck[0].uuid : crypto.randomUUID();
+				const authorID =
+					existingAuthCheck.length > 0 ? existingAuthCheck[0].uuid : crypto.randomUUID();
 
 				if (existingAuthCheck.length === 0) {
 					await tx.insert(authors).values({ uuid: authorID, name });
@@ -77,7 +78,10 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 };
 
 export const DELETE: RequestHandler = async ({ params }) => {
-	const deleted = await db.delete(book).where(eq(book.uuid, params.uuid)).returning({ uuid: book.uuid });
+	const deleted = await db
+		.delete(book)
+		.where(eq(book.uuid, params.uuid))
+		.returning({ uuid: book.uuid });
 
 	if (deleted.length === 0) {
 		return json({ error: 'Book not found.' }, { status: 404 });

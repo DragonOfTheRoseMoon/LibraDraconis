@@ -46,66 +46,102 @@
 	}
 </script>
 
-<div class="card mx-auto w-7/8 max-w-3xl preset-filled-surface-100-900 px-4 py-2 text-center">
-    <fieldset class="fieldset">
-    <legend class="legend text-left">Your Collection</legend>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
-    <div class="card preset-filled-surface-300-700 md:col-span-2 my-1 md:my-2 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-6 p-3 md:p-4">
-    	<!-- svelte-ignore a11y_no_static_element_interactions -->
-    	<div class="chart w-full max-w-80 md:flex-1 md:min-w-0 md:max-w-72" onmousemove={onMove} onmouseleave={() => (hovered = null)}>
-    		<svg viewBox="0 0 {SIZE} {SIZE}" class="w-full h-auto drop-shadow-[0_8px_20px_rgb(0_0_0/0.7)]" role="img" aria-label="Donut chart">
-    			{#each arcs as a, i}
-    				<path
-    					d={a.svgPath}
-    					fill={a.color}
-    					class="slice"
-    					class:dim={hovered !== null && hovered !== i}
-    					style:transform={hovered === i ? `translate(${a.hoverDistX}px, ${a.hoverDistY}px)` : 'none'}
-    					style:filter={hovered === i ? `drop-shadow(0 0 8px ${a.color})` : `drop-shadow(0 0 0px ${a.color})`}
-    					role="img"
-    					aria-label="{a.label}: {a.value}"
-    					onmouseenter={() => (hovered = i)}
-    				/>
-    			{/each}
+<div class="mx-auto w-7/8 max-w-3xl card preset-filled-surface-100-900 px-4 py-2 text-center">
+	<fieldset class="fieldset">
+		<legend class="legend text-left">Your Collection</legend>
+		<div class="grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4">
+			<div
+				class="my-1 flex flex-col items-center justify-center gap-6 card preset-filled-surface-300-700 p-3 md:col-span-2 md:my-2 md:flex-row md:gap-6 md:p-4"
+			>
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					class="chart w-full max-w-80 md:max-w-72 md:min-w-0 md:flex-1"
+					onmousemove={onMove}
+					onmouseleave={() => (hovered = null)}
+				>
+					<svg
+						viewBox="0 0 {SIZE} {SIZE}"
+						class="h-auto w-full drop-shadow-[0_8px_20px_rgb(0_0_0/0.7)]"
+						role="img"
+						aria-label="Donut chart"
+					>
+						{#each arcs as a, i (a.label)}
+							<path
+								d={a.svgPath}
+								fill={a.color}
+								class="slice"
+								class:dim={hovered !== null && hovered !== i}
+								style:transform={hovered === i
+									? `translate(${a.hoverDistX}px, ${a.hoverDistY}px)`
+									: 'none'}
+								style:filter={hovered === i
+									? `drop-shadow(0 0 8px ${a.color})`
+									: `drop-shadow(0 0 0px ${a.color})`}
+								role="img"
+								aria-label="{a.label}: {a.value}"
+								onmouseenter={() => (hovered = i)}
+							/>
+						{/each}
 
-    			<!-- Donut centre readout -->
-    			<text x={C} y={C - 5} text-anchor="middle" dominant-baseline="central" class="center-big">
-    				{active ? active.value : total}
-    			</text>
-    			<text x={C} y={C + 24} text-anchor="middle" dominant-baseline="central" class="center-small">
-    				{active ? active.label : 'Total'}
-    			</text>
-    		</svg>
+						<!-- Donut centre readout -->
+						<text
+							x={C}
+							y={C - 5}
+							text-anchor="middle"
+							dominant-baseline="central"
+							class="center-big"
+						>
+							{active ? active.value : total}
+						</text>
+						<text
+							x={C}
+							y={C + 24}
+							text-anchor="middle"
+							dominant-baseline="central"
+							class="center-small"
+						>
+							{active ? active.label : 'Total'}
+						</text>
+					</svg>
 
-    		{#if active}
-    			<div class="tooltip" style:left="{mouse.x + 14}px" style:top="{mouse.y + 14}px">
-    				<strong>{active.label}</strong>
-    				{active.value} ({((active.value / total) * 100).toFixed(0)}%)
-    			</div>
-    		{/if}
-    	</div>
+					{#if active}
+						<div class="tooltip" style:left="{mouse.x + 14}px" style:top="{mouse.y + 14}px">
+							<strong>{active.label}</strong>
+							{active.value} ({((active.value / total) * 100).toFixed(0)}%)
+						</div>
+					{/if}
+				</div>
 
-    	<div class="flex flex-col items-center md:items-start gap-3">
-    		<ul class="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1 md:flex-col md:flex-nowrap md:justify-start md:gap-y-2 md:text-left">
-    			{#each arcs as a, i}
-    				<li
-    					class="legend-item flex items-center gap-2"
-    					class:active={hovered === i}
-    					onmouseenter={() => (hovered = i)}
-    					onmouseleave={() => (hovered = null)}
-    				>
-    					<span class="legend-dot shadow-[0_2px_6px_rgb(0_0_0/0.7)]" style:background={a.color}></span>
-    					{a.label}: {((a.value / total) * 100).toFixed(0)}%
-    				</li>
-    			{/each}
-    		</ul>
-    	</div>
-    </div>
-    <!-- Filler card: keeps the chart two fact-cards wide -->
-    <div class="card preset-filled-surface-200-800 my-1 md:my-2 hidden md:block" aria-hidden="true"></div>
-    </div>
-    </fieldset>
+				<div class="flex flex-col items-center gap-3 md:items-start">
+					<ul
+						class="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1 md:flex-col md:flex-nowrap md:justify-start md:gap-y-2 md:text-left"
+					>
+						{#each arcs as a, i (a.label)}
+							<li
+								class="legend-item flex items-center gap-2"
+								class:active={hovered === i}
+								onmouseenter={() => (hovered = i)}
+								onmouseleave={() => (hovered = null)}
+							>
+								<span
+									class="legend-dot shadow-[0_2px_6px_rgb(0_0_0/0.7)]"
+									style:background={a.color}
+								></span>
+								{a.label}: {((a.value / total) * 100).toFixed(0)}%
+							</li>
+						{/each}
+					</ul>
+				</div>
+			</div>
+			<!-- Filler card: keeps the chart two fact-cards wide -->
+			<div
+				class="my-1 hidden card preset-filled-surface-200-800 md:my-2 md:block"
+				aria-hidden="true"
+			></div>
+		</div>
+	</fieldset>
 </div>
+
 <style>
 	.chart {
 		position: relative;

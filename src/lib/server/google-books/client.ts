@@ -2,9 +2,6 @@ import { env } from '$env/dynamic/private';
 import type { GoogleVolumesResponse } from './types';
 import type { GoogleBookResult } from '../types';
 
-
-
-
 const baseURL = 'https://www.googleapis.com/books/v1/volumes?q=';
 
 const SEARCH_PREFIX = {
@@ -24,30 +21,25 @@ export async function searchBooks(type: SearchType, query: string) {
 	return toGoogleBookResult(rawResult);
 }
 
-
 function toGoogleBookResult(rawResult: GoogleVolumesResponse): GoogleBookResult {
-
 	if (!rawResult.items || rawResult.items.length === 0) {
 		throw new Error('No book found for this search.');
 	}
 	const volInfo = rawResult.items[0].volumeInfo;
 
-
-	let sourceId = rawResult.items[0].id;
-	let title = volInfo.title;
-	let authors = volInfo.authors ?? [];
-	let series = "" //this doesn't ever seem to exist so im just going to blank it out on purpose.
-	let publisher = volInfo.publisher ?? null;
-	let publishYear = volInfo.publishedDate ? Number(volInfo.publishedDate.slice(0, 4)) : null;
-	let isbn =
+	const sourceId = rawResult.items[0].id;
+	const title = volInfo.title;
+	const authors = volInfo.authors ?? [];
+	const series = ''; //this doesn't ever seem to exist so im just going to blank it out on purpose.
+	const publisher = volInfo.publisher ?? null;
+	const publishYear = volInfo.publishedDate ? Number(volInfo.publishedDate.slice(0, 4)) : null;
+	const isbn =
 		volInfo.industryIdentifiers?.find((id) => id.type === 'ISBN_13')?.identifier ??
 		volInfo.industryIdentifiers?.find((id) => id.type === 'ISBN_10')?.identifier ??
 		null;
-	let pageCount = volInfo.pageCount ?? null;
-	let thumbnail = volInfo.imageLinks?.thumbnail ?? null;
-	let smallThumbnail = volInfo.imageLinks?.smallThumbnail ?? null;
-
-
+	const pageCount = volInfo.pageCount ?? null;
+	const thumbnail = volInfo.imageLinks?.thumbnail ?? null;
+	const smallThumbnail = volInfo.imageLinks?.smallThumbnail ?? null;
 
 	return {
 		sourceId: sourceId,
@@ -62,4 +54,3 @@ function toGoogleBookResult(rawResult: GoogleVolumesResponse): GoogleBookResult 
 		smallThumbnail: smallThumbnail
 	};
 }
-

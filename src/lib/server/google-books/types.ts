@@ -1,5 +1,3 @@
-
-
 export interface GoogleVolumesResponse {
 	items?: {
 		id: string;

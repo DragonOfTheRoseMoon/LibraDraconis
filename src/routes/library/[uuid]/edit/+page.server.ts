@@ -16,9 +16,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		error(404, 'Book not found');
 	}
 
-	const authorNames = rows
-		.map((row) => row.authors?.name)
-		.filter((name): name is string => !!name);
+	const authorNames = rows.map((row) => row.authors?.name).filter((name): name is string => !!name);
 
 	const { book: bookRow } = rows[0];
 

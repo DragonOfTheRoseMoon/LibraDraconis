@@ -8,21 +8,21 @@
 	let { children } = $props();
 </script>
 
-
 <NavBar />
-
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <main class="pt-3">
 	{@render children()}
 </main>
 
-
 <Toast.Group {toaster} class="flex flex-col gap-2">
 	{#snippet children(toast)}
-		<Toast {toast}class="card bg-surface-100-900 p-4 shadow-xl w-80 transition-all duration-300 ease-out translate-y-4 opacity-0 data-[state=open]:translate-y-0 data-[state=open]:opacity-100">
-		<Toast.Title class="font-bold">{toast.title}</Toast.Title>
-		<Toast.Description class="text-sm opacity-80">{toast.description}</Toast.Description>
+		<Toast
+			{toast}
+			class="w-80 translate-y-4 card bg-surface-100-900 p-4 opacity-0 shadow-xl transition-all duration-300 ease-out data-[state=open]:translate-y-0 data-[state=open]:opacity-100"
+		>
+			<Toast.Title class="font-bold">{toast.title}</Toast.Title>
+			<Toast.Description class="text-sm opacity-80">{toast.description}</Toast.Description>
 		</Toast>
 	{/snippet}
 </Toast.Group>

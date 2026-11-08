@@ -43,18 +43,18 @@
 	</Dialog.Trigger>
 	<Portal>
 		<Dialog.Backdrop class="fixed inset-0 z-50 bg-surface-50-950/90" />
-		<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
+		<Dialog.Positioner class="fixed inset-0 z-50 flex items-center justify-center p-4">
 			<Dialog.Content class="w-full max-w-xl {dialogAnimation}">
-				<div class="flex justify-end mb-2">
+				<div class="mb-2 flex justify-end">
 					<Dialog.CloseTrigger class="btn-icon hover:preset-tonal">
 						<XIcon class="size-4" />
 					</Dialog.CloseTrigger>
 				</div>
 
 				{#if loading}
-					<p class="text-sm opacity-70 text-center">Loading...</p>
+					<p class="text-center text-sm opacity-70">Loading...</p>
 				{:else if loadError}
-					<p class="text-error-500 text-sm text-center">{loadError}</p>
+					<p class="text-center text-sm text-error-500">{loadError}</p>
 				{:else if bookDetail}
 					<BookCardDetail book={bookDetail} />
 				{/if}
