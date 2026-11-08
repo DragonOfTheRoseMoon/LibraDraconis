@@ -16,7 +16,7 @@
 		const query = new URLSearchParams({ isbn: trimmed });
 		// resolve() is applied to the path; the query string is appended after it
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		goto(`${resolve('/search')}?${query}`);
+		goto(`${resolve('search')}?${query}`);
 	}
 </script>
 

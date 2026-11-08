@@ -98,7 +98,7 @@
 				type: 'success'
 			});
 
-			goto(resolve('/library'));
+			goto(resolve('library'));
 		} catch {
 			submitError = 'Something went wrong while saving. Check your connection and try again.';
 			toaster.create({
@@ -135,7 +135,7 @@
 				type: 'success'
 			});
 
-			goto(resolve('/library'));
+			goto(resolve('library'));
 		} catch {
 			deleteError = 'Something went wrong while deleting. Check your connection and try again.';
 			toaster.create({
@@ -287,7 +287,8 @@
 			</Dialog>
 
 			<div class="flex justify-end gap-x-2">
-				<a class="btn min-w-24 preset-tonal" href={resolve('/library')}>Cancel</a>
+				<a class="btn min-w-24 preset-tonal" href={resolve('library')}>Cancel</a>
+
 				<button type="button" class="btn preset-filled" onclick={handleSubmit} disabled={submitting}
 					>Save Changes</button
 				>
