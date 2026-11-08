@@ -1,8 +1,6 @@
-import { env } from '$env/dynamic/private';
+import { COVERS_DIR } from '$app/env/private';
 import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-
-export const COVERS_DIR = env.COVERS_DIR ?? path.join(process.cwd(), 'covers');
 
 function coverPath(bookId: string) {
 	return path.join(COVERS_DIR, `${bookId}.jpg`);

@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/private';
+import { GB_API_KEY } from '$app/env/private';
 import type { GoogleVolumesResponse } from './types';
 import type { GoogleBookResult } from '../types';
 
@@ -13,7 +13,7 @@ const SEARCH_PREFIX = {
 type SearchType = keyof typeof SEARCH_PREFIX;
 
 export async function searchBooks(type: SearchType, query: string) {
-	const url = `${baseURL}${SEARCH_PREFIX[type]}${query}&key=${env.GB_API_KEY}`;
+	const url = `${baseURL}${SEARCH_PREFIX[type]}${query}&key=${GB_API_KEY}`;
 	const response = await fetch(url);
 
 	if (!response.ok) throw new Error(`Google Books API error: ${response.status}`);
@@ -42,15 +42,15 @@ function toGoogleBookResult(rawResult: GoogleVolumesResponse): GoogleBookResult 
 	const smallThumbnail = volInfo.imageLinks?.smallThumbnail ?? null;
 
 	return {
-		sourceId: sourceId,
-		title: title,
-		authors: authors,
-		series: series,
-		publisher: publisher,
-		publishYear: publishYear,
-		isbn: isbn,
-		pageCount: pageCount,
-		thumbnail: thumbnail,
-		smallThumbnail: smallThumbnail
+		sourceId,
+		title,
+		authors,
+		series,
+		publisher,
+		publishYear,
+		isbn,
+		pageCount,
+		thumbnail,
+		smallThumbnail
 	};
 }
