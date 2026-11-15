@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { BookWithAuthors } from '#lib/server/types.ts';
+	import type { BookWithAuthors } from '#lib/server/types.js';
 	import PencilSparklesIcon from '@lucide/svelte/icons/pencil-sparkles';
 
 	let { book }: { book: BookWithAuthors } = $props();

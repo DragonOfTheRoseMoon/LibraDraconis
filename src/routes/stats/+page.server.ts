@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { count, sql, asc, desc, isNotNull } from 'drizzle-orm';
-import { db } from '#lib/server/db/index.ts';
-import { book } from '#lib/server/db/schema.ts';
+import { db } from '#lib/server/db/index.js';
+import { book } from '#lib/server/db/schema.js';
 
 export const load: PageServerLoad = async () => {
 	const sliceStats = await db

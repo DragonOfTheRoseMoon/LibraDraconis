@@ -1,4 +1,4 @@
-import { formatEnum, statusEnum } from '#lib/server/db/schema.ts';
+import { formatEnum, statusEnum } from '#lib/server/db/schema.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {

@@ -2,7 +2,7 @@
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
-	import { toaster } from '#lib/components/toaster.ts';
+	import { toaster } from '#lib/components/toaster.js';
 	import NavBar from '#lib/components/navbar.svelte';
 
 	let { children } = $props();

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Carousel } from '@skeletonlabs/skeleton-svelte';
 	import BookCardCover from '#lib/components/BookCardCover.svelte';
-	import type { BookSummary } from '#lib/server/types.ts';
+	import type { BookSummary } from '#lib/server/types.js';
 	import { ChevronLeft, ChevronRight } from '@lucide/svelte';
 
 	let { books }: { books: BookSummary[] } = $props();

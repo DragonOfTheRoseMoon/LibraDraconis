@@ -1,9 +1,8 @@
-import { json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import { db } from '#lib/server/db/index.ts';
-import { book, authors, bookAuthors } from '#lib/server/db/schema.ts';
-import type { BookEntryForm, BookWithAuthors } from '#lib/server/types.ts';
-import { deleteCoverImage } from '#lib/server/covers.ts';
+import { db } from '#lib/server/db/index.js';
+import { book, authors, bookAuthors } from '#lib/server/db/schema.js';
+import type { BookEntryForm, BookWithAuthors } from '#lib/server/types.js';
+import { deleteCoverImage } from '#lib/server/covers.js';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {
@@ -15,7 +14,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		.where(eq(book.uuid, params.uuid));
 
 	if (rows.length === 0) {
-		return json({ error: 'Book not found.' }, { status: 404 });
+		return Response.json({ error: 'Book not found.' }, { status: 404 });
 	}
 
 	const result: BookWithAuthors = {
@@ -23,7 +22,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		authors: rows.map((row) => row.authors?.name).filter((name): name is string => !!name)
 	};
 
-	return json(result);
+	return Response.json(result);
 };
 
 export const PATCH: RequestHandler = async ({ params, request }) => {
@@ -71,10 +70,10 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 		});
 	} catch (err) {
 		console.error('Failed to update book:', err);
-		return json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
+		return Response.json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
 	}
 
-	return json({ uuid: params.uuid });
+	return Response.json({ uuid: params.uuid });
 };
 
 export const DELETE: RequestHandler = async ({ params }) => {
@@ -84,10 +83,10 @@ export const DELETE: RequestHandler = async ({ params }) => {
 		.returning({ uuid: book.uuid });
 
 	if (deleted.length === 0) {
-		return json({ error: 'Book not found.' }, { status: 404 });
+		return Response.json({ error: 'Book not found.' }, { status: 404 });
 	}
 
 	await deleteCoverImage(params.uuid);
 
-	return json({ uuid: params.uuid });
+	return Response.json({ uuid: params.uuid });
 };

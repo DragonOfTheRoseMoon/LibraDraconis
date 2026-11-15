@@ -1,21 +1,20 @@
-import { json } from '@sveltejs/kit';
-import { searchBooks } from '#lib/server/google-books/client.ts';
+import { searchBooks } from '#lib/server/google-books/client.js';
 import type { RequestHandler } from './$types';
-import type { AddBookPayload } from '#lib/server/types.ts';
+import type { AddBookPayload } from '#lib/server/types.js';
 import { eq } from 'drizzle-orm';
-import { db } from '#lib/server/db/index.ts';
-import { book, authors, bookAuthors } from '#lib/server/db/schema.ts';
-import { saveCoverImage } from '#lib/server/covers.ts';
+import { db } from '#lib/server/db/index.js';
+import { book, authors, bookAuthors } from '#lib/server/db/schema.js';
+import { saveCoverImage } from '#lib/server/covers.js';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const isbn = url.searchParams.get('isbn');
 
 	if (!isbn) {
-		return json({ error: 'Missing isbn query parameter' }, { status: 400 });
+		return Response.json({ error: 'Missing isbn query parameter' }, { status: 400 });
 	}
 
 	const data = await searchBooks('isbn', isbn);
-	return json(data);
+	return Response.json(data);
 };
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -25,7 +24,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		const existingBookCheck = await db.select().from(book).where(eq(book.isbn, body.isbn));
 
 		if (existingBookCheck.length > 0) {
-			return json({ error: 'This ISBN is already in your library.' }, { status: 409 });
+			return Response.json({ error: 'This ISBN is already in your library.' }, { status: 409 });
 		}
 	}
 
@@ -65,7 +64,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		});
 	} catch (error) {
 		console.error('Failed to add book to library:', error);
-		return json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
+		return Response.json({ error: 'Something went wrong while saving the book.' }, { status: 500 });
 	}
 
 	if (body.thumbnail) {
@@ -75,5 +74,5 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 	}
 
-	return json({ uuid: bookID }, { status: 201 });
+	return Response.json({ uuid: bookID }, { status: 201 });
 };

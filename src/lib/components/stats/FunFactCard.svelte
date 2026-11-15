@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FunFacts } from '#lib/components/stats/types.ts';
+	import type { FunFacts } from '#lib/components/stats/types.js';
 
 	let {
 		oldest,

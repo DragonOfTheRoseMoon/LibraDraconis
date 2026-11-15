@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ChartSliceInput, ChartSliceComputed } from '#lib/components/stats/types.ts';
+	import type { ChartSliceInput, ChartSliceComputed } from '#lib/components/stats/types.js';
 
 	let { slices }: { slices: ChartSliceInput[] } = $props();
 

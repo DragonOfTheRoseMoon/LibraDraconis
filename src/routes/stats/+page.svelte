@@ -1,9 +1,9 @@
 <script lang="ts">
 	import FunFactCard from '#lib/components/stats/FunFactCard.svelte';
 	import DonutChart from '#lib/components/stats/DonutChart.svelte';
-	import type { ChartSliceInput } from '#lib/components/stats/types.ts';
+	import type { ChartSliceInput } from '#lib/components/stats/types.js';
 	import type { PageData } from './$types';
-	import type { Status } from '#lib/server/db/schema.ts';
+	import type { Status } from '#lib/server/db/schema.js';
 
 	let { data }: { data: PageData } = $props();
 
