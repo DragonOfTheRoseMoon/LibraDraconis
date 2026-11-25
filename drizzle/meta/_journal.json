@@ -15,6 +15,13 @@
       "when": 1785713968686,
       "tag": "0001_futuristic_doctor_faustus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795573637505,
+      "tag": "0002_spicy_cardiac",
+      "breakpoints": true
     }
   ]
 }

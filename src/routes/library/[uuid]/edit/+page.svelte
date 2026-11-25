@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import type { BookEntryForm } from '#lib/server/types.js';
 	import { toaster } from '#lib/components/toaster.js';
+	import { formatLabels, ownershipLabels } from '#lib/labels.js';
 	import { Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
 
 	const dialogAnimation =
@@ -229,7 +230,7 @@
 					<span class="label-text">Format</span>
 					<select class="select field-lg" bind:value={form.format}>
 						{#each data.formats as f (f)}
-							<option value={f}>{f}</option>
+							<option value={f}>{formatLabels[f]}</option>
 						{/each}
 					</select>
 				</label>
@@ -238,10 +239,10 @@
 					<input class="input" type="number" min="0" placeholder="0" bind:value={form.pages} />
 				</label>
 				<label class="label flex-1">
-					<span class="label-text">Status</span>
-					<select class="select field-lg" bind:value={form.status}>
+					<span class="label-text">Ownership</span>
+					<select class="select field-lg" bind:value={form.ownership}>
 						{#each data.statuses as f (f)}
-							<option value={f}>{f}</option>
+							<option value={f}>{ownershipLabels[f]}</option>
 						{/each}
 					</select>
 				</label>

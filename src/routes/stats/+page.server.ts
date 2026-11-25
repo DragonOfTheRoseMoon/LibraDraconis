@@ -5,9 +5,9 @@ import { book } from '#lib/server/db/schema.js';
 
 export const load: PageServerLoad = async () => {
 	const sliceStats = await db
-		.select({ status: book.status, total: count() })
+		.select({ status: book.ownership, total: count() })
 		.from(book)
-		.groupBy(book.status);
+		.groupBy(book.ownership);
 
 	const queryOldestBook = await db
 		.select()

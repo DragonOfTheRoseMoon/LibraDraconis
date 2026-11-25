@@ -8,16 +8,18 @@ import {
 	boolean,
 	numeric,
 	timestamp,
+	date,
 	primaryKey,
 	index,
+	check,
 	uniqueIndex
 } from 'drizzle-orm/pg-core';
 
 export const formatEnum = pgEnum('format', ['book', 'ebook', 'audiobook']);
 export type Format = (typeof formatEnum.enumValues)[number];
 
-export const statusEnum = pgEnum('status', ['unread', 'read', 'wishlist']);
-export type Status = (typeof statusEnum.enumValues)[number];
+export const ownEnum = pgEnum('owned', ['own', 'notown', 'wishlist']);
+export type Ownership = (typeof ownEnum.enumValues)[number];
 
 export const book = pgTable(
 	'book',
@@ -31,18 +33,19 @@ export const book = pgTable(
 		publishYear: integer('publish_year'),
 		pages: integer('pages'),
 		format: formatEnum('format'),
-		status: statusEnum('status').notNull().default('unread'),
+		ownership: ownEnum('ownership').notNull().default('own'),
 		hasImage: boolean('has_image').notNull().default(false),
-		addedOn: timestamp('added_on').notNull().defaultNow(),
-		// Only meaningful when status = 'wishlist'; NULL otherwise.
 		wishPos: numeric('wish_pos'),
-		// Only meaningful when status = 'wishlist'; NULL otherwise.
-		approxCost: numeric('approx_cost', { precision: 10, scale: 2 })
+		addedOn: timestamp('added_on').notNull().defaultNow(),
+		readOn: date('read_on'),
+		rating: integer('rating')
 	},
 	(table) => [
 		uniqueIndex('idx_book_wish_pos')
 			.on(table.wishPos)
-			.where(sql`${table.status} = 'wishlist'`)
+			.where(sql`${table.ownership} = 'wishlist'`),
+
+		check('rating_range', sql`${table.rating} >= 1 AND ${table.rating} <= 10`)
 	]
 );
 

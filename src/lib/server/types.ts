@@ -1,4 +1,4 @@
-import type { Format, Status, book } from '#lib/server/db/schema.js';
+import type { Format, Ownership, book } from '#lib/server/db/schema.js';
 
 export interface GoogleBookResult {
 	sourceId: string;
@@ -23,7 +23,7 @@ export type BookEntryForm = {
 	publishYear: number;
 	format: Format;
 	pages: number;
-	status: Status;
+	ownership: Ownership;
 };
 
 export type AddBookPayload = BookEntryForm & { thumbnail: string | null };

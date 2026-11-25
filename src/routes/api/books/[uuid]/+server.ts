@@ -49,7 +49,7 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 					publishYear,
 					pages,
 					format: body.format,
-					status: body.status
+					ownership: body.ownership
 				})
 				.where(eq(book.uuid, params.uuid));
 

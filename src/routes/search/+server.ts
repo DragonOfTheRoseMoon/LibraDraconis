@@ -46,7 +46,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				publishYear: publishYear,
 				pages: pages,
 				format: body.format,
-				status: body.status
+				ownership: body.ownership
 			});
 
 			for (const name of authorNames) {
